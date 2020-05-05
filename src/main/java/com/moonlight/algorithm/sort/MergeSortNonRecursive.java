@@ -4,7 +4,7 @@ import com.moonlight.algorithm.Const;
 
 /**
  * @ClassName MergeSortNonRecursive
- * @Description: TODO
+ * @Description: 非递归方式实现归并。两两一组, 依次步进2
  * @Author Moonlight
  * @Date 2020/5/3 16:47
  * @Version V1.0

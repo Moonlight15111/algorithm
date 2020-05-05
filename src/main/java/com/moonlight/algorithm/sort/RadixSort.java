@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 /**
  * @ClassName RadixSort
- * @Description: 基数
+ * @Description: 基数。类似计数排序，按数据的个位/十位/百位分别进行处理
  * @Author Moonlight
  * @Date 2020/5/4 3:14
  * @Version V1.0

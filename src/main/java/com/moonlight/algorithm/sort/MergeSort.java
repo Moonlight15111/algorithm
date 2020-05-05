@@ -4,7 +4,7 @@ import com.moonlight.algorithm.Const;
 
 /**
  * @ClassName MergeSort
- * @Description: 归并. i 位置小于 j 位置，i 移入help数组，i 位置大于 j 位置，j 移入help数组，剩下的直接追加到help数组
+ * @Description: 归并. 将数组分为两半，分别进行排序然后合并。合并时： 左边 i 位置小于 右边 j 位置，左边 i 移入help数组，左边 i 位置大于 右边 j 位置，右边 j 移入help数组，剩下的直接追加到help数组
  * @Author Moonlight
  * @Date 2020/5/3 14:35
  * @Version V1.0

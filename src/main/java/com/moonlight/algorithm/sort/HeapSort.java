@@ -5,7 +5,7 @@ import com.moonlight.algorithm.Const;
 
 /**
  * @ClassName HeapSort
- * @Description: TODO
+ * @Description: 将数组组成一个大根堆的形式，然后将堆的根节点与最后一个节点交换，并将堆的数量 - 1，使其不可达，循环此过程
  * @Author Moonlight
  * @Date 2020/5/4 22:20
  * @Version V1.0
