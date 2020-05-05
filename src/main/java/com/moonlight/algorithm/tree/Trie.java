@@ -29,6 +29,9 @@ public class Trie {
             trie.insert(s);
         }
         System.out.println("search: " + trie.search("1a2"));
+        System.out.println("delete: " + trie.delete("1a2"));
+        System.out.println("search: " + trie.search("1a2"));
+        System.out.println("startWith: " + trie.startWith("1a2"));
     }
 
     /**
@@ -73,11 +76,33 @@ public class Trie {
         return node.end;
     }
 
-    public int startWith(){
-        return 0;
+    public int startWith(String str){
+        Node node = root;
+        char[] charArray = str.toCharArray();
+        for (int path : charArray) {
+            if (!node.nextMap.containsKey(path)) {
+                return node.pass;
+            }
+            node = node.nextMap.get(path);
+        }
+        return node.pass;
     }
 
-    public boolean delete(){
+    public boolean delete(String str){
+        if (search(str) != 0) {
+            Node node = root;
+            node.pass--;
+            char[] charArray = str.toCharArray();
+            for (int path : charArray) {
+                node = node.nextMap.get(path);
+                if (--node.pass == 0) {
+                    node.nextMap = new HashMap<>();
+                    return true;
+                }
+            }
+            node.end--;
+            return true;
+        }
         return false;
     }
 

@@ -4,7 +4,7 @@ import com.moonlight.algorithm.Const;
 
 /**
  * @ClassName MergeSort
- * @Description: 归并
+ * @Description: 归并. i 位置小于 j 位置，i 移入help数组，i 位置大于 j 位置，j 移入help数组，剩下的直接追加到help数组
  * @Author Moonlight
  * @Date 2020/5/3 14:35
  * @Version V1.0
@@ -45,24 +45,24 @@ public class MergeSort implements Sort {
         merge(arr, left, mid, right);
     }
 
-    private void merge(int[] arr, int left, int right, int rightBound) {
-        int[] temp = new int[rightBound - left + 1];
+    private void merge(int[] arr, int start, int mid, int end) {
+        int[] temp = new int[end - start + 1];
 
-        int i = left, j = right + 1, k = 0;
+        int i = start, j = mid + 1, k = 0;
 
-        while(i <= right && j <= rightBound) {
+        while(i <= mid && j <= end) {
             temp[k++] = arr[i] <= arr[j] ? arr[i++] : arr[j++];
         }
 
-        while (i <= right) {
+        while (i <= mid) {
             temp[k++] = arr[i++];
         }
-        while (j <= rightBound) {
+        while (j <= end) {
             temp[k++] = arr[j++];
         }
 
         for(int m = 0; m < temp.length; m++) {
-            arr[left + m] = temp[m];
+            arr[start + m] = temp[m];
         }
     }
 
