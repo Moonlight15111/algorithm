@@ -25,14 +25,15 @@ public class QuickSort implements Sort {
     }
 
     private void sort(int[] arr, int start, int end){
-        if(start >= end) return;
+        if (start >= end) {
+            return;
+        }
 
 //        int partition_pivot = partition(arr, start, end);
 //        sort(arr, start, partition_pivot - 1);
 //        sort(arr, partition_pivot + 1, end);
 
-//        int[] res = partition2(arr, start, end);
-        int[] res = partition2(arr, start + ((int) (Math.random() * (end - start + 1))), end);
+        int[] res = partition2(arr, start, end);
 
         sort(arr, start, res[0] - 1);
         sort(arr, res[1] + 1, end);
