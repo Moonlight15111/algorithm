@@ -77,7 +77,7 @@ public class FindOddNum {
 
     /**
      * @Author Moonlight
-     * @Description 有兩個數出現了奇數次，其它數都出現了偶數次，求此數
+     * @Description 获取最右边的1
      * @Date 2020/5/2 19:13
      * @Param
      * @Exception
@@ -85,7 +85,8 @@ public class FindOddNum {
      * @version
      **/
     public static int getFarRightNumOne(int num) {
-        return num & ((~num) + 1);
+        // num & ((~num) + 1) 这个也可以
+        return num & (-num);
     }
 
     public static int bit1Count(int num) {
