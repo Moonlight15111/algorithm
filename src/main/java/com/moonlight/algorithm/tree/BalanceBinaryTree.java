@@ -26,10 +26,10 @@ public class BalanceBinaryTree {
         Info leftInfo = treeInfo(root.left);
         Info rightInfo = treeInfo(root.right);
         int treeHeight = Math.max(leftInfo.height, rightInfo.height) + 1;
-        if (leftInfo.isBalance && rightInfo.isBalance && leftInfo.height - rightInfo.height < 2) {
-            return new Info(true, treeHeight);
+        if (!leftInfo.isBalance || !rightInfo.isBalance || Math.abs(leftInfo.height - rightInfo.height) > 1) {
+            return new Info(false, treeHeight);
         }
-        return new Info(false, treeHeight);
+        return new Info(true, treeHeight);
     }
 
 
