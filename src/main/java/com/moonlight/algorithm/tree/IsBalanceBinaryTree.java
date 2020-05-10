@@ -8,7 +8,7 @@ package com.moonlight.algorithm.tree;
  * @Date 2020/5/8 22:19
  * @Version V1.0
  **/
-public class BalanceBinaryTree {
+public class IsBalanceBinaryTree {
 
     public static void main(String[] args){
         System.out.println(isBalanceBinaryTree(Node.getTree()));
