@@ -55,8 +55,8 @@ public class BinarySearchTreeHead {
     }
 
     static class Info {
-        public int size, max, min;
-        public Node headNode;
+        private int size, max, min;
+        private Node headNode;
 
         public Info (int size, int max, int min, Node headNode) {
             this.size = size;

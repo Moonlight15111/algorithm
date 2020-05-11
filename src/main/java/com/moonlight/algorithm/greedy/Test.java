@@ -39,4 +39,17 @@ public class Test {
         }
     }
 
+    public static int fib (int n) {
+        if (n <= 1) {
+            return n;
+        }
+        int first = 0, second = 1;
+        for (int i = 0, length = n - 1; i < length; i++) {
+            int sum = first + second;
+            first = second;
+            second = sum;
+        }
+        return second;
+    }
+
 }
