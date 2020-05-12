@@ -21,8 +21,40 @@ public class LightUp {
 
     public static void main (String[] args) {
         String s = "XX...XX.X.X....XX."; // 6
+        String s2 = "X.X.X..X...X.";
 
         System.out.println(minLights(s.toCharArray(), 0, new HashSet<>()));
+        System.out.println(minLength(s.toCharArray()));
+
+        System.out.println(minLights(s2.toCharArray(), 0, new HashSet<>()));
+        System.out.println(minLength(s2.toCharArray()));
+    }
+
+    public static int minLength(char[] arr) {
+        int index = 0, lights = 0, length = arr.length;
+
+        while (index < length) {
+            // 如果第 i 个位置是 X 那么就可以直接进入下个位置
+            if (arr[index] == 'X') {
+                index++;
+                continue;
+            }
+            // 如果第 i 个位置是 . 无论如何都是会放置一盏灯的
+            lights++;
+
+            if (index + 1 == length) {
+                break;
+            }
+            // 如果第 i + 1 个位置是 X，那么就可以直接进入到 i + 2 位置上
+            if (arr[index + 1] == 'X') {
+                index += 2;
+            } else {
+                // 如果第 i + 1 个位置是 . 那么此时灯应该放置在 i + 1 位置上，那么不管 i + 2 位置是什么，我们都可以直接跳过了
+                index += 3;
+            }
+        }
+
+        return lights;
     }
 
     public static int minLights (char[] arr, int index, Set<Integer> lights) {
