@@ -15,7 +15,7 @@ public class PrimMST {
 
     // 最开始将所有的边/点都视作未解锁状态
     // 从任意节点出发，可以解锁出发节点的所有边及直接邻居节点
-    // 选取已解锁边中权重最小的边，如果它
+    // 选取已解锁边中权重最小的边，如果它所到达的节点没有成环就继续循环，否则就跳过它
     public static Set<Edge> primMST(Graph graph){
         Set<Edge> result = new HashSet<>();
         // 解锁的节点

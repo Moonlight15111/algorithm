@@ -1,0 +1,2 @@
+1. 在需要使用该Agent的项目中引入该Jar包 project structure - project settings - library
+2. 在运行时需要该Agent的类，加入参数：-javaagent:存放目录
