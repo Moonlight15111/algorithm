@@ -18,13 +18,6 @@ public class MergeSort implements Sort {
 //        int[] arr = {1,4,7,8,3,6,9};
 //        sort.sort(arr);
 //        Const.print(arr);
-
-//        int i = 1;
-//        i = i++; // i = 1: temp = i(等号右边的i)  i = i + 1(等号右边的i)  i = temp(等号左边的i)
-//        i = ++i; // i = 2: i = i + 1(等号右边的i) temp = i(等号右边的i) i = temp(等号左边的i)
-//        int j = i++; // j = 1, i = 2 : temp = i   i = i + 1   j = temp
-//        int k = i + ++i * i++; // k = 2 + 3 * 3 = 11, i = 4
-//        System.out.println("i: " + i + "   j: " + j + "  k: " + k);
     }
 
     @Override
