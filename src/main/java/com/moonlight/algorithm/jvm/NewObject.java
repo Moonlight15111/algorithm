@@ -19,11 +19,18 @@ public class NewObject {
         // 其实类似与 int a; int b = a = 2; 这种语句也是会对 2 进行dup操作，因为它要连续两次store给变量a和b
 //        4 invokespecial #3 <com/moonlight/algorithm/jvm/NewObject.<init>> // 调用构造方法，成员变量赋初始值，执行构造语句
 //        7 astore_1 // 返回内存地址给引用
+        NewObject object = new NewObject();
 //        8 aload_1 // 引用压栈
 //        9 invokevirtual #4 <com/moonlight/algorithm/jvm/NewObject.m> // 调用m方法，生成m的栈帧，只有当m方法结束后，才会从这里继续往下执行main方法
-//        12 return
-        NewObject object = new NewObject();
         object.m();
+//        aload_1 // 引用压入操作数栈
+//        invokevirtual #5 <com/moonlight/algorithm/jvm/NewObject.m1> // 调用m1方法
+//        pop // 将栈顶数值弹出,即将m1方法的返回值弹出(因为m1方法结束后，会在main方法的栈顶上压入它的返回值，为了不妨碍下面的操作执行，所以不管有没有用都会将该返回值弹出)
+        object.m1();
+//        aload_1  // 引用压入操作数栈
+//        invokevirtual #5 <com/moonlight/algorithm/jvm/NewObject.m1> // 调用m1方法
+//        istore_2 // 将m1方法的返回值扔到局部变量表赋给j
+        int j = object.m1();
     }
 
     public void m(){
@@ -31,6 +38,10 @@ public class NewObject {
 //        3 istore_1
 //        4 return
         int i = 200;
+    }
+
+    public int m1(){
+        return 200;
     }
 
 }
