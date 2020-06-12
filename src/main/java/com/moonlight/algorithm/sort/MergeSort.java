@@ -58,27 +58,4 @@ public class MergeSort implements Sort {
             arr[start + m] = temp[m];
         }
     }
-
-    private void merge(int[] arr){
-        int mid = arr.length / 2;
-
-        int i = 0, j = mid + 1, k = 0;
-
-        int[] help = new int[arr.length];
-
-        while (i <= mid && j < arr.length) {
-            help[k++] = arr[i++] <= arr[j++] ? arr[i++] : arr[j++];
-        }
-        while (i <= mid) {
-            help[k++] = arr[i++];
-        }
-        while (j < arr.length) {
-            help[k++] = arr[j++];
-        }
-        for (int h = 0; h < help.length; h++) {
-            arr[h] = help[h];
-        }
-    }
-
-
 }
