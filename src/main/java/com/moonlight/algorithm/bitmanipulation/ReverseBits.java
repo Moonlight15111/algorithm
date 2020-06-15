@@ -11,6 +11,13 @@ package com.moonlight.algorithm.bitmanipulation;
  */
 public class ReverseBits {
     public static int reverseBits (int n) {
-
+        int result = 0;
+        // 0 -> 31, 1 -> 30 ...
+        // 取下一个位置的值 计算下个位置
+        for (int bitCount = 31; n != 0; n = n >>> 1, bitCount--) {
+            // 取 n 的最后一位，移动到第bitCount位上
+            result += (n & 1) << bitCount;
+        }
+        return result;
     }
 }
