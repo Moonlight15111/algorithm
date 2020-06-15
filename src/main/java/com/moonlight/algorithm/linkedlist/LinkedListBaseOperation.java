@@ -22,6 +22,16 @@ public class LinkedListBaseOperation<T> {
         return prev;
     }
 
+    public SingleNode<T> reverseSingleList(SingleNode<T> head){
+        if (head.next == null) {
+            return head;
+        }
+        SingleNode<T> res = reverseSingleList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return res;
+    }
+
     public DoubleNode<T> reverseDoubleNodeLinkedList(DoubleNode<T> head) {
         DoubleNode<T> prev = null, next = null;
         while (head != null) {
