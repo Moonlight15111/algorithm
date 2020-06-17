@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.bitmanipulation;
+package com.moonlight.algorithm.train;
 
 /**
  * 〈功能简述〉<br>

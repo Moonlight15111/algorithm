@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.bitmanipulation;
+package com.moonlight.algorithm.train;
 
 /**
  * 〈功能简述〉<br>
@@ -76,14 +76,5 @@ public class ReverseBetween {
         head.next.next = head;
         head.next = null;
         return res;
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
     }
 }
