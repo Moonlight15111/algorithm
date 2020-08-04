@@ -59,6 +59,10 @@ public class DeptTree {
             }
         }
 
+        if (root == null) {
+            return null;
+        }
+
         recursionBuilder(root, deptList);
 
         return root;
