@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.io;
+package com.moonlight.algorithm.io.iomode;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
