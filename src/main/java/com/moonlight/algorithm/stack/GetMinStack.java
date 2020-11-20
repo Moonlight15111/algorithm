@@ -40,6 +40,25 @@ public class GetMinStack {
         return this.dataStack.pop();
     }
 
+    public GetMinStack push2(Integer num) {
+        if (this.minStack.isEmpty() || num <= getMin()) {
+            this.minStack.push(num);
+        }
+        this.dataStack.push(num);
+        return this;
+    }
+
+    public Integer pop2() {
+        if (this.dataStack.isEmpty()) {
+            throw new RuntimeException("current stack is empty");
+        }
+        Integer pop = this.dataStack.pop();
+        if (pop <= getMin()) {
+            this.minStack.pop();
+        }
+        return pop;
+    }
+
     public Integer getMin() {
         return this.minStack.peek();
     }
