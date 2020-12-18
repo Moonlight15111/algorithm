@@ -89,20 +89,12 @@ public class FindOddNum {
      * @date 2020/6/10 16:12
      */
     public static int singleNumber(int[] nums) {
-        int x = 0;
-        for(int i : nums) {
-            // x == a^b^c^...^x
-            x ^= i;
+        int x = 0, y = 0;
+        for(int num : nums){
+            x = x ^ num & ~y;
+            y = y ^ num & ~x;
         }
-        // 获取到最右边的1，即这些数字最开始不同的地方
-        int rightDiff = x & (-x), result = 0;
-        for (int i : nums) {
-            //
-            if ((rightDiff & i) != 0) {
-                result ^= i;
-            }
-        }
-        return result;
+        return x;
     }
 
     /**

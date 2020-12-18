@@ -12,11 +12,16 @@ public class MajorityElement {
     public static void main(String[] args){
         int[] arr = {2,2,1,1,1,2,2};
         System.out.println(majorityElement(arr));
+        int[] arr2 = {5, 6, 5};
+        System.out.println(majorityElement(arr2));
+        int[] arr3 = {1, 2, 3};
+        System.out.println(majorityElement(arr3));
+        int[] arr4 = {2, 2, 1, 3, 2};
+        System.out.println(majorityElement(arr4));
     }
 
     public static int majorityElement(int[] nums) {
-        // 摩尔投票算法
-        // 本质上来说，就是 多数元素与其他元素两两抵消后，还剩下的就肯定是多数元素啦
+        // 摩尔投票  多数元素与其他元素两两抵消后，还剩下的就肯定是多数元素
         int candidate = nums[0], count = 1;
         for (int num : nums) {
             // 如果当前这个数和候选人相等，那么就给候选人票数 + 1
@@ -28,6 +33,17 @@ public class MajorityElement {
                 count = 1;
             }
         }
-        return candidate;
+        if (count > 0) {
+            count = 0;
+            for (int n : nums) {
+                if (n == candidate) {
+                    count++;
+                }
+            }
+            if (count > (nums.length / 2)) {
+                return candidate;
+            }
+        }
+        return -1;
     }
 }
