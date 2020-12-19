@@ -1,7 +1,5 @@
 package com.moonlight.algorithm.linkedlist;
 
-import com.moonlight.algorithm.train.ListNode;
-
 /**
  * 〈功能简述〉<br>
  * 〈〉
