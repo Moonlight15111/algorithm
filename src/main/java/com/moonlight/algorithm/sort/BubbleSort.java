@@ -22,12 +22,20 @@ public class BubbleSort implements Sort{
             return;
         }
 
-        for (int i = 0, length = arr.length - 1; i < length; i++) {
-            for (int j = 0; j < length - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    swap(arr, j, j + 1);
+        // 0 1 交换  1 2 交换  2 3 交换 .... length - 2  length - 1 交换
+        for (int i = arr.length - 1; i >= 0; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (arr[j - 1] > arr[j]) {
+                    swap(arr, j - 1, j);
                 }
             }
         }
+//        for (int i = 0, length = arr.length - 1; i < length; i++) {
+//            for (int j = 0; j < length - i; j++) {
+//                if (arr[j] > arr[j + 1]) {
+//                    swap(arr, j, j + 1);
+//                }
+//            }
+//        }
     }
 }

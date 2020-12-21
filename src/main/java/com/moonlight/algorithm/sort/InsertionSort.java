@@ -12,9 +12,26 @@ import com.moonlight.algorithm.Const;
 public class InsertionSort implements Sort{
 
     public static void main(String[] args){
-        Sort sort = new InsertionSort();
+        InsertionSort sort = new InsertionSort();
         sort.sort(Const.arr);
         Const.print(Const.arr);
+
+        sort.sort1213(Const.arr);
+        Const.print(Const.arr);
+    }
+
+    public void sort1213(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        // 回头看 i > i - 1 就交换
+        for (int i = 1, length = arr.length; i < length; i++) {
+            int j = i;
+            while (j - 1 >= 0 && arr[j - 1] > arr[j]) {
+                swap(arr, j - 1, j);
+                j--;
+            }
+        }
     }
 
     public void sort(int[] arr){

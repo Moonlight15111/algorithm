@@ -21,6 +21,7 @@ public class SelectionSort implements Sort{
         if (arr == null || arr.length < 2) {
             return;
         }
+        // 假设第 i 个位置为最小值，往前遍历，找到比 i 还小的数，然后和 i 交换
         for (int i = 0, len = arr.length - 1; i < len; i++) {
             int min = i;
 
