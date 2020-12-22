@@ -46,17 +46,12 @@ public class BitBaseOp {
     }
 
     public static int bitReverseOrder(int num) {
-        // 二进制位逆序
         // 先分别取原数的奇数位和偶数位，将空余位用 0 填充 再将奇数位右移一位，偶数位左移一位，此时将两个数据相或即可以达到奇偶位上数据交换的效果
-        num = ((num & 0xAAAA) >> 1) | ((num & 0x5555) << 1);
-        // 移两步
-        num = ((num & 0xCCCC) >> 2) | ((num & 0x3333) << 2);
-        // 移四步
-        num = ((num & 0xF0F0) >> 4) | ((num & 0x0F0F) << 4);
-        //
-        num = ((num & 0xFF00) >> 8) | ((num & 0x00FF) << 8);
-        //
-        num = ((num & 0xFF00) >> 16) | ((num & 0x00FF) << 16);
+        num = ((num & 0xAAAAAAAA) >> 1) | ((num & 0x55555555) << 1);
+//        num = ((num & 0xCCCCCCCC) >> 2) | ((num & 0x33333333) << 2);
+//        num = ((num & 0xF0F0) >> 4) | ((num & 0x0F0F) << 4);
+//        num = ((num & 0xFF00) >> 8) | ((num & 0x00FF) << 8);
+//        num = ((num & 0xFF00) >> 16) | ((num & 0x00FF) << 16);
         return num;
     }
 
