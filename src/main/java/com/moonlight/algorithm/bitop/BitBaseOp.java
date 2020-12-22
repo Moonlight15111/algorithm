@@ -55,13 +55,22 @@ public class BitBaseOp {
         return num;
     }
 
+    public static void main(String[] args) {
+        System.out.println((12 & (12 - 1)));
+        System.out.println(bit1Count(9));
+    }
+
     public static int bit1Count(int num) {
         int count = 0;
         while(num != 0){
-            // 去掉二进制位中最右边的1 (如果有的话)
-            num = num & (num - 1);
-            // num = num & (-num)
+            // 取最高位的1
+            // num = num & (num - 1);
             count++;
+
+            // 取最右边的1
+            int farRightOne = num & (-num); // num = num & (~num + 1)
+            // 消掉最右边的1
+            num ^= farRightOne;
         }
         return count;
     }
