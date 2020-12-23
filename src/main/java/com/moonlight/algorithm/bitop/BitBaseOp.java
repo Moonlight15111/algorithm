@@ -60,17 +60,33 @@ public class BitBaseOp {
         System.out.println(bit1Count(9));
     }
 
+    public static int highestOneBit(int i) {
+        // 获取最高位的1
+        i |= (i >>> 1);
+        i |= (i >>> 2);
+        i |= (i >>> 4);
+        i |= (i >>> 8);
+        i |= (i >>> 16);
+        return i ^ (i >>> 1);
+    }
+
+    public static int change2ZeroK(int n, int k) {
+        // 将数字 n 二进制的第 K 位设置为0
+        if ((n & (1 << k)) != 0) {
+            n -= (1 << k);
+        }
+        return n;
+    }
+
     public static int bit1Count(int num) {
         int count = 0;
         while(num != 0){
-            // 取最高位的1
-            // num = num & (num - 1);
             count++;
-
             // 取最右边的1
             int farRightOne = num & (-num); // num = num & (~num + 1)
             // 消掉最右边的1
             num ^= farRightOne;
+            // num = num & (num - 1);
         }
         return count;
     }
