@@ -2,6 +2,7 @@ package com.moonlight.algorithm.train.list;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * 〈功能简述〉<br>
@@ -29,6 +30,7 @@ public class GetKthFromEnd {
 
         System.out.println(getKthFromEnd(head, 2).val);
 
+        System.out.println(getKthFromEnd2323(head, 2).val);
     }
     public static ListNode getKthFromEnd(ListNode head, int k) {
         if (head == null || head.next == null || k <= 0) {
@@ -45,4 +47,19 @@ public class GetKthFromEnd {
         }
         return record.get(index - k);
     }
+
+    public static ListNode getKthFromEnd2323(ListNode head, int k) {
+        if (head == null || head.next == null || k <= 0) {
+            return head;
+        }
+        Stack<ListNode> stack = new Stack<>();
+
+        while (head != null) {
+            stack.push(head);
+            head = head.next;
+        }
+
+        return stack.get(stack.size() - k);
+    }
+
 }

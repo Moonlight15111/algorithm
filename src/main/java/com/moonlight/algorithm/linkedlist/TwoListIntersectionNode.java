@@ -65,7 +65,7 @@ public class TwoListIntersectionNode {
         while (!current1.equals(current2)) {
             current1 = current1.next;
             current2 = current2.next;
-        }
+        }   
         return current1;
     }
 
