@@ -58,4 +58,25 @@ public class MergeSort implements Sort {
             arr[start + m] = temp[m];
         }
     }
+
+    public void sort22(int[] arr) {
+        int step = 1;
+        int len = arr.length;
+        while (step < len) {
+            int left = 0;
+            while (left < step) {
+                int mid = left + step - 1;
+                if (mid >= step) {
+                    break;
+                }
+                int right = Math.min(mid + step, len - 1);
+                merge(arr, left, mid, right);
+                left = right + 1;
+            }
+            if (step > (len / 2)) {
+                break;
+            }
+            step <<= 1;
+        }
+    }
 }
