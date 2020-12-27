@@ -1,0 +1,61 @@
+package com.moonlight.algorithm.train.list;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 原題：https://leetcode-cn.com/problems/design-front-middle-back-queue/
+ *
+ *  请你设计一个队列，支持在前，中，后三个位置的 push 和 pop 操作。
+ * 请你完成 FrontMiddleBack 类：
+ * FrontMiddleBack() 初始化队列。
+ * void pushFront(int val) 将 val 添加到队列的 最前面 。
+ * void pushMiddle(int val) 将 val 添加到队列的 正中间 。
+ * void pushBack(int val) 将 val 添加到队里的 最后面 。
+ * int popFront() 将 最前面 的元素从队列中删除并返回值，如果删除之前队列为空，那么返回 -1 。
+ * int popMiddle() 将 正中间 的元素从队列中删除并返回值，如果删除之前队列为空，那么返回 -1 。
+ * int popBack() 将 最后面 的元素从队列中删除并返回值，如果删除之前队列为空，那么返回 -1 。
+ *
+ * 请注意当有 两个 中间位置的时候，选择靠前面的位置进行操作。比方说：
+ * 将 6 添加到 [1, 2, 3, 4, 5] 的中间位置，结果数组为 [1, 2, 6, 3, 4, 5] 。
+ * 从 [1, 2, 3, 4, 5, 6] 的中间位置弹出元素，返回 3 ，数组变为 [1, 2, 4, 5, 6] 。
+ *
+ * @ClassName FrontMiddleBackQueue
+ * @Description: 這樣也行，但是自定義鏈表比較有B格
+ * @Author Moonlight
+ * @Date 2020/12/27 14:56
+ * @Version V1.0
+ **/
+public class FrontMiddleBackQueue {
+
+    List<Integer> list;
+
+    public FrontMiddleBackQueue() {
+        list = new ArrayList<>();
+    }
+
+    public void pushFront(int val) {
+        list.add(0, val);
+    }
+
+    public void pushMiddle(int val) {
+        list.add(list.size() >> 1, val);
+    }
+
+    public void pushBack(int val) {
+        list.add(val);
+    }
+
+    public int popFront() {
+        return list.size() == 0 ? -1 : list.remove(0);
+    }
+
+    public int popMiddle() {
+        return list.size() == 0 ? -1 : ((list.size() & 1) == 0 ? list.remove((list.size() >> 1) - 1) : list.remove(list.size() >> 1));
+    }
+
+    public int popBack() {
+        return list.size() == 0 ? -1 : list.remove(list.size() - 1);
+    }
+
+}
