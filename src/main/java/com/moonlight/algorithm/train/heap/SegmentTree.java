@@ -28,21 +28,23 @@ public class SegmentTree {
     }
 
     public static int sum(int[][] arr) {
-        // 1. 将线段按起始位置升序排序   2. 踢出小根堆中，小于线段起始位置的数，并将结束位置放入小根堆  3. 循环结束后小根堆中有多少个数，就说明有多个重合线段
+        // 1. 将线段按起始位置升序排序   2. 踢出小根堆中，小于线段起始位置的数，并将结束位置放入小根堆  3. 堆中最多的时候，重合的线段最多
         // 以第 i 个线段为例，实质就是说：如果重合区域必须以 i_s 为左边界，有多少条线段会越过 i_e 往右穿，如果线段 j 的 end 位置小于或等于 i_e 则 j 必不可能与 i 重合，所以需要剔除
         List<int[]> list = new ArrayList<>(Arrays.asList(arr));
         list.sort((a, b) -> a[0] - b[0]);
 
         PriorityQueue<Integer> queue = new PriorityQueue<>();
 
+        int res = 0;
         for (int[] a : list) {
             while (queue.size() != 0 && queue.peek() <= a[0]) {
                 queue.poll();
             }
             queue.add(a[1]);
+            res = Math.max(res, queue.size());
         }
 
-        return queue.size();
+        return res;
     }
 
 }
