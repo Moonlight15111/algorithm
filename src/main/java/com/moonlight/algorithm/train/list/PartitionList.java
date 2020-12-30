@@ -52,11 +52,6 @@ public class PartitionList {
 
             head = next;
         }
-
-        cur = dummy;
-        while (cur.next != null) {
-            cur = cur.next;
-        }
         cur.next = moreDummy.next;
         return dummy.next;
     }
