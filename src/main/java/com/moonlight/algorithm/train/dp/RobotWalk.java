@@ -15,11 +15,21 @@ public class RobotWalk {
     public static void main(String[] args) {
         System.out.println(walk(5, 2, 4, 6));
         System.out.println(walk222(5, 2, 4, 6));
+        System.out.println(walk333(5, 2, 4, 6));
     }
 
-//    public static int walk333(int n, int start, int aim, int k) {
-//
-//    }
+    public static int walk333(int n, int start, int aim, int k) {
+        int[][] dp = new int[n + 1][k + 1];
+        dp[aim][0] = 1;
+        for (int rest = 1; rest <= k; rest++) {
+            dp[1][rest] = dp[2][rest - 1];
+            for (int cur = 2; cur < n; cur++) {
+                dp[cur][rest] = dp[cur - 1][rest - 1] + dp[cur + 1][rest - 1];
+            }
+            dp[n][rest] = dp[n - 1][rest - 1];
+        }
+        return dp[start][k];
+    }
 
     public static int walk222(int n, int start, int aim, int k) {
         int[][] dp = new int[n + 1][k + 1];
