@@ -18,6 +18,8 @@ public class NumberToLetter {
     public static void main(String[] args) {
         System.out.println(numToLetter("111"));
         System.out.println(numToLetter("10"));
+        System.out.println(dp("111"));
+        System.out.println(dp("10"));
     }
 
     public static int numToLetter(String str) {
@@ -52,6 +54,35 @@ public class NumberToLetter {
         }
         // 3 到 9 只能自己玩
         return process(chars, i + 1);
+    }
+
+    public static int dp(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        int len = str.length();
+        char[] chars = str.toCharArray();
+
+        int[] dp = new int[len + 1];
+        dp[len] = 1;
+        for (int i = len - 1; i >= 0; i--) {
+            if (chars[i] == '0') {
+                dp[i] = 0;
+            } else if (chars[i] == '1') {
+                dp[i] = dp[i + 1];
+                if (i + 1 < len) {
+                    dp[i] += dp[i + 2];
+                }
+            } else if (chars[i] == '2') {
+                dp[i] = dp[i + 1];
+                if (i + 1 < chars.length && chars[i + 1] >= '0' && chars[i + 1] <= 6) {
+                    dp[i] += dp[i + 2];
+                }
+            } else {
+                dp[i] = dp[i + 1];
+            }
+        }
+        return dp[0];
     }
 
 }
