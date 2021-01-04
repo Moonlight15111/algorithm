@@ -43,9 +43,9 @@ public class Test {
         if (n <= 1) {
             return n;
         }
-        int first = 0, second = 1;
-        for (int i = 0, length = n - 1; i < length; i++) {
-            int sum = first + second;
+        int first = 0, second = 1, sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum = first + second;
             first = second;
             second = sum;
         }
