@@ -90,7 +90,7 @@ public class CoinsWay_2 {
         int[][] dp = new int[len + 1][aim + 1];
         // index == arr.length ==> rest == 0 ? 1 : 0
         dp[len][0] = 1;
-        // 每个index位置都依赖index +_1位置的值
+        // 每个index位置都依赖index + 1位置的值
         for (int index = len - 1; index >= 0; index--) {
             for (int rest = 0; rest <= aim; rest++) {
                 int count = 0;
@@ -111,7 +111,7 @@ public class CoinsWay_2 {
         int[][] dp = new int[len + 1][aim + 1];
         // index == arr.length ==> rest == 0 ? 1 : 0
         dp[len][0] = 1;
-        // 每个index位置都依赖index +_1位置的值
+        // 每个index位置都依赖index + 1位置的值
         // rest - (i * arr[index])
         for (int index = len - 1; index >= 0; index--) {
             for (int rest = 0; rest <= aim; rest++) {

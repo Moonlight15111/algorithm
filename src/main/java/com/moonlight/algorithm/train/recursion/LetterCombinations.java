@@ -19,7 +19,13 @@ import java.util.Map;
 public class LetterCombinations {
 
     public static void main(String[] args) {
-
+        for (String str : letterCombinations("23")) {
+            System.out.print(str + ", ");
+        }
+        System.out.println();
+        for (String str : letterCombinations222("23")) {
+            System.out.print(str + ", ");
+        }
     }
 
     public static List<String> letterCombinations(String digits) {
@@ -38,9 +44,60 @@ public class LetterCombinations {
         map.put('8', "tuv");
         map.put('9', "wxyz");
 
-        //
+        process(digits.toCharArray(), 0, "", res, map);
 
         return res;
+    }
+
+    private static void process(char[] chars, int index, String path, List<String> res, Map<Character, String> mapping) {
+        if (index == chars.length) {
+            res.add(path);
+            return;
+        }
+        String s = mapping.get(chars[index]);
+        if (s == null || s.length() == 0) {
+            return;
+        }
+        for (int i = 0, len = s.length(); i < len; i++) {
+            process(chars, index + 1, path + s.charAt(i), res, mapping);
+        }
+    }
+
+    public static List<String> letterCombinations222(String digits) {
+        // 回溯快了5ms
+        List<String> res = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return res;
+        }
+        StringBuffer sb = new StringBuffer("");
+        Map<Character, String> map = new HashMap<>();
+        map.put('2', "abc");
+        map.put('3', "def");
+        map.put('4', "ghi");
+        map.put('5', "jkl");
+        map.put('6', "mno");
+        map.put('7', "pqrs");
+        map.put('8', "tuv");
+        map.put('9', "wxyz");
+
+        backtrack(digits.toCharArray(), 0, sb, res, map);
+        return res;
+    }
+
+    private static void backtrack(char[] chars, int index, StringBuffer path, List<String> res, Map<Character, String> mapping) {
+        if (index == chars.length) {
+            res.add(path.toString());
+            return;
+        }
+        String s = mapping.get(chars[index]);
+        if (s == null || s.length() == 0) {
+            return;
+        }
+        for (char c : s.toCharArray()) {
+            path.append(c);
+            backtrack(chars, index + 1, path, res, mapping);
+            path.deleteCharAt(path.length() - 1);
+        }
     }
 
 }
