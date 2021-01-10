@@ -28,6 +28,9 @@ public class HouseRobber {
 
         System.out.println(rob2222(arr));
         System.out.println(rob2222(arr22));
+
+        System.out.println(dp(arr));
+        System.out.println(dp(arr22));
     }
 
     public static int rob(int[] nums) {
@@ -77,4 +80,18 @@ public class HouseRobber {
 
         return dp[index];
     }
+
+    public static int dp(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = nums.length;
+        int[] dp = new int[len + 1];
+        dp[len] = 0;
+        for (int index = len - 1; index >= 0 ; index--) {
+            dp[index] = Math.max(dp[index + 1], index + 2 >= len + 1 ? nums[index] : nums[index] + dp[index + 2]);
+        }
+        return dp[0];
+    }
+
 }
