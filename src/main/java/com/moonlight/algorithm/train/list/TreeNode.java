@@ -8,9 +8,9 @@ package com.moonlight.algorithm.train.list;
  * @date 2020/12/30 11:44
  */
 public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
 
     TreeNode() {
     }
