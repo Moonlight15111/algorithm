@@ -17,10 +17,11 @@ public class RotateStringii {
 
     public static void main(String[] args) {
         System.out.println(rotateString("abcde", "deabc"));
+        System.out.println(rotateString("aaa", "a"));
     }
 
     public static boolean rotateString(String A, String B) {
-        if (A == null || A.length() == 0 || B == null || B.length() == 0 || A.length() < B.length()) {
+        if (A == null || A.length() == 0 || B == null || B.length() == 0 || A.length() != B.length()) {
             return false;
         }
         String str = A + A;
