@@ -1,5 +1,6 @@
 package com.moonlight.algorithm.train.string;
 
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -18,6 +19,22 @@ public class ReverseWords {
         System.out.println(reverseWords("Let's take LeetCode contest"));
         System.out.println(reverseWords2231("Let's take LeetCode contest"));
         System.out.println(reverseWords2212311("Let's take LeetCode contest"));
+        System.out.println(reverseWordsIII("    "));
+    }
+
+    public static String reverseWordsIII(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        String[] split = s.trim().split(" ");
+        StringBuilder res = new StringBuilder();
+        for (int i = split.length - 1; i >= 0; i--) {
+            if (Objects.equals(split[i], "")) {
+                continue;
+            }
+            res.append(split[i]).append(" ");
+        }
+        return "".equals(res.toString()) ? "" : res.substring(0, res.length() - 1);
     }
 
     public  static String reverseWords2212311(String s) {
