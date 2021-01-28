@@ -32,7 +32,7 @@ public class Manacher {
         int max = 0;
         for (int i = 0; i < s1.length(); i++) {
             // 大于则 说明 i 在 longestRight中，则取当前点的对称点与当前位置至最右边界之间最小的值
-            // 小于等于则说明i不在longestRight范围中，则最少可以确定一个位置是不需要验证是否一样的
+            // 小于等于则说明i不在longestRight范围中，则最少可以确定一个位置(它自己)是不需要验证是否一样的
             pArr[i] = longestRight > i ? Math.min(pArr[2 * cert - i], longestRight - i) : 1;
             // 左右不越界，看能不能往外扩
             while (i + pArr[i] < s1.length() && i - pArr[i] > -1) {
