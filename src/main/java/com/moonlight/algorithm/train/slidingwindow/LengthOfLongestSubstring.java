@@ -41,6 +41,8 @@ public class LengthOfLongestSubstring {
         if (s == null || s.length() == 0) {
             return 0;
         }
+        // 对于重复元素，只有从第一个位置的下一个位置出发才能算是新一轮的查找
+        // 如: abcdecf，对于第二个c，从bcde任意一个位置开始，长度都是无法超过从a开始的，只有从d开始才能算是新一轮的查找
         char[] chars = s.toCharArray();
         int res = Integer.MIN_VALUE, leftPtr = 0, rightPtr = 0, length = chars.length;
 
@@ -48,10 +50,12 @@ public class LengthOfLongestSubstring {
 
         while (rightPtr < length) {
             res = Math.max(res, rightPtr - leftPtr);
-
+            // 当遇到重复值，说明左指针需要跳转，跳转的位置是该重复值的下标 + 1
+            // 如果碰到了重复值的下标比左指针还小的情况，不应该跳转，因为左指针左边的元素已经不在窗口内了
             if (map.containsKey(chars[rightPtr]) && map.get(chars[rightPtr]) >= leftPtr) {
                 leftPtr = map.get(chars[rightPtr]) + 1;
             }
+            // 无论重不重复都需要更新该元素最近的下标
             map.put(chars[rightPtr], rightPtr);
             rightPtr++;
         }
