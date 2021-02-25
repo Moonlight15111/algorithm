@@ -1,9 +1,8 @@
-package com.moonlight.algorithm.train.slidingwindow;
+package com.moonlight.algorithm.train.slidingwindowdoubleptr;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
+
 /**
  * 原题: https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
  *

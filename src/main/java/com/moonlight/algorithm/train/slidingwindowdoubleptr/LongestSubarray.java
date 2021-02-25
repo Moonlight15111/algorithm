@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.slidingwindow;
+package com.moonlight.algorithm.train.slidingwindowdoubleptr;
 
 import java.util.PriorityQueue;
 
