@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.slidingwindowdoubleptr;
+package com.moonlight.algorithm.train.slidingwindowtwoptr;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.slidingwindowdoubleptr;
+package com.moonlight.algorithm.train.slidingwindowtwoptr;
 
 /**
  * 原题：https://leetcode-cn.com/problems/container-with-most-water/
