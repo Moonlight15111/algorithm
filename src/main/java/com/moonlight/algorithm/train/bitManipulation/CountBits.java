@@ -16,6 +16,15 @@ public class CountBits {
         System.out.println(Arrays.toString(countBits(7)));
     }
 
+    public static int[] countBits12313(int num) {
+        int[] res = new int[num + 1];
+        // 只有奇数才会令 bit 1 的数量增加
+        for (int i = 1; i <= num; i++) {
+            res[i] = res[i >> 1] + i % 2;
+        }
+        return res;
+    }
+
     public static int[] countBits(int number){
         if (number < 0) {
             return null;
