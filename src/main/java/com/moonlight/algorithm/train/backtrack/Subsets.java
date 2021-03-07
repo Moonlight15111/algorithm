@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.bitManipulation;
+package com.moonlight.algorithm.train.backtrack;
 
 import java.util.ArrayList;
 import java.util.List;

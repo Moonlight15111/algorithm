@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.recursion;
+package com.moonlight.algorithm.train.backtrack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
