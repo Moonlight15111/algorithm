@@ -1,6 +1,7 @@
 package com.moonlight.algorithm.train.backtrack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,7 +26,9 @@ import java.util.List;
 public class CombinationSum {
 
     public static void main(String[] args) {
-
+        int[] a = {2, 3, 6, 7}, b = {2, 3, 5};
+        System.out.println(combinationSum(a, 7));
+        System.out.println(combinationSum(b, 8));
     }
 
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
@@ -43,7 +46,11 @@ public class CombinationSum {
             return;
         }
         for (int i = index; i < candidates.length; i++) {
-
+            if (candidates[i] + sum <= target) {
+                path.add(candidates[i]);
+                backtrack(i, candidates[i] + sum, target, candidates, path, res);
+                path.remove(path.size() - 1);
+            }
         }
     }
 
