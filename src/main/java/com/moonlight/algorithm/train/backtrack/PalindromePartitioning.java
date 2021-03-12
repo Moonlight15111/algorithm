@@ -1,6 +1,8 @@
 package com.moonlight.algorithm.train.backtrack;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +27,11 @@ import java.util.List;
 public class PalindromePartitioning {
 
     public static void main(String[] args) {
-        System.out.println(partition("aab").toString());
+        Date start = new Date(), end = new Date(start.getDay() - 1);
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(start));
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(end));
+        System.out.println(end.before(start) + ",  " + end.after(start));
+//        System.out.println(partition("aab").toString());
     }
 
     public static List<List<String>> partition(String s) {
