@@ -95,4 +95,29 @@ public class BitBaseOp {
         return n > 0 && (n & (n - 1)) == 0;
     }
 
+    public static int bitK(int n, int k) {
+        // 取出 n 的第 k 个 bit位
+        return (n >> k) & 1;
+    }
+
+    public static int lastBitK(int n, int k) {
+        // 取出 n 的后 k 位
+        return n & ((1 << k) - 1);
+    }
+
+    public static int reK(int n, int k) {
+        // 将第 k 位取反
+        return n ^ (1 << k);
+    }
+
+    public static int setOneK(int n, int k) {
+        // 将第 k 位 置为 1
+        return n | (1 << k);
+    }
+
+    public static int setZeroK(int n, int k) {
+        // 将第 k 位 置为 0
+        return n & ~(1 << k);
+    }
+
 }
