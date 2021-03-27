@@ -23,10 +23,26 @@ public class MoveLetterX {
     public static void main(String[] args) {
         String[] a = {"L", "X", "E", "J", "X", "I", "A", "N" },
                 b = {"X", "X", "E", "J", "X", "I", "A", "X" };
-        move(a);
-        move(b);
+//        move(a);
+//        move(b);
+        move12313(a);
+        move12313(b);
+
         System.out.println(Arrays.toString(a));
         System.out.println(Arrays.toString(b));
+    }
+
+    public static void move12313(String[] arr) {
+        int prev = 0, cur = 0;
+        while (cur < arr.length) {
+            if (!"X".equals(arr[cur])) {
+                arr[prev++] = arr[cur];
+            }
+            cur++;
+        }
+        for (int i = prev; i < arr.length; i++) {
+            arr[i] = "X";
+        }
     }
 
     public static void move(String[] arr) {
