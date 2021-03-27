@@ -1,20 +1,30 @@
 package com.moonlight.algorithm.train.bitManipulation;
 
 /**
- * 〈功能简述〉<br>
- * 〈〉
- * 原题：https://leetcode-cn.com/problems/add-without-plus-lcci/
- * 设计一个函数把两个数字相加。不得使用 + 或者其他算术运算符。
- * 输入: a = 1, b = 1
- * 输出: 2
- * @author Moonlight
- * @date 2020/12/22 17:58
- */
-public class AddWithoutPlus {
+ * 不用加减乘除实现乘法
+ * @ClassName MultiWithout
+ * @Description: TODO
+ * @Author Moonlight
+ * @Date 2021/3/27 15:50
+ * @Version V1.0
+ **/
+public class MultiWithout {
 
     public static void main(String[] args) {
-        System.out.println(add(1, 1));
-        System.out.println(add(3, 4));
+        System.out.println(multi(1, 2));
+        System.out.println(multi(12, 2));
+    }
+
+    public static int multi(int a, int b) {
+        int res = 0;
+        while (b != 0) {
+            if ((b & 1) != 0) {
+                res = add(a, res);
+            }
+            a <<= 1;
+            b >>>= 1;
+        }
+        return res;
     }
 
     public static int add(int a, int b) {
