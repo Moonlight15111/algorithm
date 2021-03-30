@@ -15,24 +15,28 @@ public class BinaryTree {
 
     public static void main (String[] args) {
         preNonRecursive(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     先序开始     ");
         preNonRecursive(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     先序结束      ");
 
         inorderTraversal(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     中序开始      ");
         inorderTraversalNonRecursive(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     中序结束      ");
 
         postTraversal(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     后序开始      ");
         postTraversalNonRecursive(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     后序结束      ");
         postTraversalNonRecursiveLowSpace(Node.getTree());
 
-        System.out.println("           ");
-        breadthSearch(Node.getTree());
-        System.out.println("           ");
+        System.out.println("     广度开始      ");
+        breadthFirstSearch(Node.getTree());
+        System.out.println("     广度结束      ");
+
+        System.out.println("     深度开始      ");
+        depthFirstSearch(Node.getTree());
+        System.out.println("     深度结束      ");
 
     }
 
@@ -192,7 +196,8 @@ public class BinaryTree {
         }
     }
 
-    public static void breadthSearch(Node root){
+    // 广度优先遍历
+    public static void breadthFirstSearch(Node root){
         if (root == null) {
             return;
         }
@@ -206,6 +211,27 @@ public class BinaryTree {
             }
             if (root.right != null) {
                 queue.add(root.right);
+            }
+        }
+    }
+
+    // 深度优先遍历
+    public static void depthFirstSearch(Node root) {
+        if (root == null) {
+            return;
+        }
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        Node tmp;
+        while (!stack.isEmpty()) {
+            tmp = stack.pop();
+            System.out.println("node val：" + tmp.val);
+            if (tmp.right != null) {
+                stack.push(tmp.right);
+            }
+            if (tmp.left != null) {
+                stack.push(tmp.left);
             }
         }
     }
