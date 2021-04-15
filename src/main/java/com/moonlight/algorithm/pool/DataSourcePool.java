@@ -105,8 +105,8 @@ public class DataSourcePool {
 
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                if (method.getName().equals("close")) {
-                    pool.add(connection);
+                if ("close".equals(method.getName())) {
+                    pool.add((Connection) proxy);
                     return null;
                 }
                 return method.invoke(connection, args);
