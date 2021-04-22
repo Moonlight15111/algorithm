@@ -75,6 +75,105 @@ moonlight study algorithm project
 4.  邻接表法
 5.  邻接矩阵法
 
+#### 回溯
+1.模板
+  ```
+      void backtracking(参数) {
+          if (终止条件) {
+              存放结果;
+              return;
+          }
+  
+          for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {
+              处理节点;
+              backtracking(路径，选择列表); // 递归
+              回溯，撤销处理结果
+          }
+      }
+  ```
+2.位置: Permutations
+
+#### bfprt
+1. 在一个无序数组中找第K大/小，前/后K个数字
+2. 流程
+    ```
+     五个数一组，剩下不足五个的做一组
+     每个小组自己内部排序
+     每个小组自己的中位数拎出来，不足五个的那组取上中点，组成一个midArr
+     在midArr上面继续上述行为，直到取到唯一一个中位数
+     以这个中位数为轴进行partitition，小于在左，等于在中，大于在右
+     判断index在哪个区间范围上，在该区间范围重复上述所有操作
+    ```
+3. 位置: Bfprt
+
+#### KMP
+1. 在字符串S中是否有子串包含字符串M的，如果有返回该子串开头的位置
+2. 位置: KMP
+
+#### Manacher
+1. 最长回文长度
+2. 位置: Manacher
+
+#### Morris
+1. 常数空间遍历树
+2. 流程
+   ```
+   当前节点记为cur, 一开始cur来到树的根节点
+     1.如果cur无左树，cur移动到右树上
+     2.如果cur有左树，找到左树最右节点，记为mostRight
+       2.1.如果mostRight的右孩子为空，则将mostRight的右孩子指向cur，cur向左移动
+       2.2.如果mostRight的右孩子指向cur，则将mostRight的右孩子指回空，cur向右移动
+     3.如果cur为空，停止整个流程
+   ```
+3. 位置: Morris
+
+#### 单调栈
+1. 一个栈，从底到顶，严格递增或严格递减
+2. 位置: MonotonousStack
+
+#### 前缀和数组
+1. 一维
+   ```
+   int[] sum = new int[nums.length];
+   if (nums.length > 0) {
+       sum[0] = nums[0];
+       for (int i = 1; i < nums.length; i++) {
+           sum[i] = sum[i - 1] + nums[i];
+       }
+   }
+   ```
+2. 二维
+   ```
+   二维前缀和数组中的每一个格子记录的是 以当前位置为区域的右下角（区域左上角恒定为原数组的左上角）的区域和
+   解决的是二维矩阵中的矩形区域求和问题。
+   模板:
+        // 预处理前缀和数组
+        {
+           sum = new int[n + 1][m + 1];
+           for (int i = 1; i <= n; i++) {
+             for (int j = 1; j <= m; j++) {
+               // 当前格子(和) = 上方的格子(和) + 左边的格子(和) - 左上角的格子(和) + 当前格子(值)【和是指对应的前缀和，值是指原数组中的值】
+               sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + matrix[i - 1][j - 1];
+             }
+           }
+        }
+        求某一段区域和 [i, j] 的模板是 sum[x][y] - sum[i - 1][y] - sum[x][j - 1] + sum[i - 1][j - 1]
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+               for (int x = i; x <= n; x++) {
+                  for (int y = j; y <= m; y++) {
+                    int s = sum[x][y] - sum[i - 1][y] - sum[x][j - 1] + sum[i - 1][j - 1];
+                    if (s <= k) {
+                      ans = Math.max(ans, s);
+                    }
+                 }
+              }
+           }
+        }
+   ```
+#### 位运算技巧
+1. 位置BitBaseOp
+
 #### 小技巧
 1.  找出数字 n 是否是数字 b 的幂的一个简单方法是，n % b 只要余数为 0，就一直将 n 除以 b
 2.  num & 63 ==> num % 64   ==> 只适用于 num % 2的n次方
