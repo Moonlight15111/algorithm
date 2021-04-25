@@ -41,17 +41,23 @@ public class LinkedListInBinaryTree {
     }
 
     public static boolean isSubPath(ListNode head, TreeNode root) {
-        // 不知啥情况，test case 全过，但是判定解答错误
-        if (head == null || root == null) {
-            return false;
-        }
-        if (head.next == null && head.val == root.val) {
+        if (head == null) {
             return true;
         }
-        ListNode next = head.val == root.val ? head.next : head;
-        boolean left = isSubPath(next, root.left);
-        boolean right = isSubPath(next, root.right);
-        return left || right;
+        if (root == null) {
+            return false;
+        }
+        return dfs(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right);
+    }
+
+    private static boolean dfs(ListNode head, TreeNode root) {
+        if (head == null) {
+            return true;
+        }
+        if (root == null) {
+            return false;
+        }
+        return (head.val == root.val && (dfs(head.next, root.left) || dfs(head.next, root.right)));
     }
 
 }
