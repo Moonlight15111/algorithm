@@ -1,5 +1,8 @@
 package com.moonlight.algorithm.thread;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -15,6 +18,24 @@ public class SourceCodeLearn {
     public void threadKeepAliveAndGetTask() {
         /*
 ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING、TERMINATED  低29位存工作的线程数
+
+ RUNNING:  Accept new tasks and process queued tasks
+ SHUTDOWN: Don't accept new tasks, but process queued tasks
+ STOP:     Don't accept new tasks, don't process queued tasks and interrupt in-progress tasks
+ TIDYING:  All tasks have terminated, workerCount is zero the thread transitioning to state TIDYING will run the terminated() hook method
+ TERMINATED: terminated() has completed
+
+  存放线程对象的容器为什么使用HashSet HashSet 其实本质上就是 HashMap ThreadPoolExecutor中对worker集合(HashSet)只有add和remove操作
+  这些操作对于HashSet来说时间复杂度均为O(1)，而且线程数中对线程进入集合的顺序和优先级都没有要求，跟其他集合类相比，
+  在空间复杂度一致的情况下，当然是时间复杂度最好的集合类优先考虑
+
+  CPU 密集型计算：多线程本质上是提升多核 CPU 的利用率，所以一般都是一个核一个线程，或者设置 核心数 + 1也行，
+  这样的话，当线程因为偶尔的内存页失效或其他原因导致阻塞时，这个额外的线程可以顶上，从而保证 CPU 的利用率。
+
+  I/O 密集型的计算场景：如果 CPU 计算和 I/O 操作的耗时是1:1，那么 2 个线程是最合适的。
+  如果 CPU 计算和 I/O 操作的耗时是 1:2，设置 3 个线程好一点，这样子 CPU 在 A、B、C 三个线程之间切换，
+  对于线程 A，当 CPU 从B、C 切换回来时，线程 A 正好执行完 I/O 操作。
+  这样 CPU 和 I/O 设备的利用率都达到了100%。
 
 一般一个线程执行完任务之后就结束了，Thread.start()只能调用一次，一旦这个调用结束，则该线程就到了stop状态，不能再次调用start。
 如果你对一个已经启动的线程对象再调用一次start方法的话,会产生:IllegalThreadStateException异常，但是Thread的run方法是可以重复调用的。
@@ -130,7 +151,12 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
     }
 
     public void addWorker() {
-        //private boolean addWorker(Runnable firstTask, boolean core) {
+//        Worker(Runnable firstTask) {
+//            setState(-1); 初始设置为-1是为了防止出现线程还没有启动就被中断的情况
+//            this.firstTask = firstTask;
+//            this.thread = getThreadFactory().newThread(this);
+//        }
+//private boolean addWorker(Runnable firstTask, boolean core) {
 //    retry:  这一整个循环，其实就是判断线程池状态、任务队列状态，然后对线程池数量 + 1
 //    for (;;) {
 //        int c = ctl.get();
@@ -239,6 +265,9 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 //                        阻塞获取任务
 //                        (task = getTask()) != null
 //                      ) {
+//                    这个加锁其实为了标识这个线程是不是空闲线程
+//                    在interruptIdleWorkers()方法中断空闲线程时会尝试去获取线程的锁，能拿到锁就中断这个线程
+//                    如果这个线程在干活自己就拿不到锁，那就表示它不是一个空闲线程咯
 //                    w.lock();
 //                    // If pool is stopping, ensure thread is interrupted;
 //                    // if not, ensure thread is not interrupted.  This
@@ -246,12 +275,15 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 //                    // shutdownNow race while clearing interrupt
 //                    如果：
 //                       线程池已经进入STOP、TIDYING、TERMINATED状态了
-//                       或者 当前线程已经被中断了且线程池已经进入STOP、TIDYING、TERMINATED状态了
-//                      但是当前工作线程并没有被中断，则手动将当前工作线程中断
+//                       或者 当前线程已经被中断过了且线程池已经进入STOP、TIDYING、TERMINATED状态了
+//                       但是当前工作线程并没有被中断(因为上面那个判断线程是否被中断过会消耗一个中断标志位，即线程之前被中断过走了Thread.interrupted()后就会置为非中断态)，
+//                       则手动将当前工作线程中断
+//                    正如注释所说，只有当线程池正在进行关闭操作，线程才应该处于中断状态
 //                    if ( (runStateAtLeast(ctl.get(), STOP) ==》 A
 //                           ||
 //                            (
-//                              这里写成这样，可能是怕线程的中断不是因为线程池关闭了需要将线程中断，而是开发者在线程的run方法中手动中断线程
+//                              这里写成这样，应该是说，如果你之前被中断过，那么线程池就应该至少处于stop状态，否则就清掉你这个中断标志
+//                              可能是怕线程的中断不是因为线程池关闭了需要将线程中断，而是开发者在线程的run方法中中断了线程
 //                              所以使用静态interrupted方法清除中断标志位，并再一次检查运行状态
 //                              Thread.interrupted() && runStateAtLeast(ctl.get(), STOP)  ==》 B
 //                            )
@@ -322,4 +354,99 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 //            }
 //        }
     }
+
+    public void shutdownAndNow() {
+//        public void shutdown() {
+//            final ReentrantLock mainLock = this.mainLock;
+//            mainLock.lock();
+//            try {
+//                checkShutdownAccess();
+//                改变线程池的状态为Shutdown
+//                advanceRunState(SHUTDOWN);
+//                释放空闲的线程，这是很符合shutdown的定义的，shutdown是指不接受新的任务，但是继续执行任务队列里面剩余的任务
+//                所以既然你都已经空闲了，说明你没有事可以做了，那就关了呗，留着也没啥用
+//                interruptIdleWorkers();
+//                钩子函数，正式关闭前想做点什么，比如释放资源之类的
+//                onShutdown(); // hook for ScheduledThreadPoolExecutor
+//            } finally {
+//                mainLock.unlock();
+//            }
+//            tryTerminate();
+//        }
+
+//        public List<Runnable> shutdownNow() {
+//            List<Runnable> tasks;
+//            final ReentrantLock mainLock = this.mainLock;
+//            mainLock.lock();
+//            try {
+//                checkShutdownAccess();
+//                改变线程池的状态为STOP
+//                advanceRunState(STOP);
+//                中断所有的工作线程，这是很符合stop的定义的，stop是指不接受新任务，也不执行任务队列里面剩下的任务，同时中断所有正在执行的任务
+//                interruptWorkers();
+//                可能调用者想要知道哪些任务还没有被执行，所以返回这些任务，对其进行补偿？
+//                tasks = drainQueue();
+//                可能是因为这个方法叫shutdownNow，表示很急，所以没必要放个钩子在这里？
+//            } finally {
+//                mainLock.unlock();
+//            }
+//            tryTerminate();
+//            return tasks;
+//        }
+    }
+
+    public void tryTerminate() {
+//        final void tryTerminate() {
+//            for (;;) {
+//                int c = ctl.get();
+//                如果当前:
+//                        1. 是运行状态 或者 2. 已经进入了tidying、terminate状态 或者 3. 是shutdown状态 且 任务队列还有任务
+//                那么就直接return掉
+//                if (isRunning(c) ||
+//                        runStateAtLeast(c, TIDYING) ||
+//                        (runStateOf(c) == SHUTDOWN && ! workQueue.isEmpty()))
+//                    return;
+//                如果当前还有工作线程在跑，那么就只中断一个，可能是怕没有线程执行下面的terminated()方法？
+//                因为能走到这里来的前面都做过线程数量 - 1 操作了，如果所有的线程都中断掉，那么谁来执行terminated()呢？
+//                所以这里是为了保证只有最后一个线程后往下面走执行terminated
+//                if (workerCountOf(c) != 0) { // Eligible to terminate
+//                    interruptIdleWorkers(ONLY_ONE);
+//                    return;
+//                }
+//
+//                final ReentrantLock mainLock = this.mainLock;
+//                mainLock.lock();
+//                try {
+//                    if (ctl.compareAndSet(c, ctlOf(TIDYING, 0))) {
+//                        try {
+//                            terminated();
+//                        } finally {
+//                            ctl.set(ctlOf(TERMINATED, 0));
+//                            唤醒所有的等待terminated的线程，即调了awaitTerminated()方法的线程
+//                            termination.signalAll();
+//                        }
+//                        return;
+//                    }
+//                } finally {
+//                    mainLock.unlock();
+//                }
+//                // else retry on failed CAS
+//            }
+//        }
+//        private List<Runnable> drainQueue() {
+//            BlockingQueue<Runnable> q = workQueue;
+//            ArrayList<Runnable> taskList = new ArrayList<Runnable>();
+//            在正常情况下使用drainTo，但是如果队列是一个延迟队列或者其他种类的队列比如说不支持drainTo方法那么这个drainTo可能会失败
+//            所以需要在下面又重新手动搞过一次
+//            q.drainTo(taskList);
+//            if (!q.isEmpty()) {
+//                for (Runnable r : q.toArray(new Runnable[0])) {
+//                    if (q.remove(r))
+//                        taskList.add(r);
+//                }
+//            }
+//            return taskList;
+//        }
+    }
+
 }
