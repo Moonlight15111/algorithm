@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Date 2021/4/25 20:52
  * @Version V1.0
  **/
-public class SourceCodeLearn {
+public class ThreadPoolExecutorSourceCode {
 
     public void threadKeepAliveAndGetTask() {
         /*
@@ -94,11 +94,16 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 非核心线程延迟死亡，如何实现 ?
   通过任务队列workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS)，让线程阻塞等待一段时间，如果没有取到任务，则线程死亡
 
+当任务队列是一个无界队列时，其实最大线程数、keepAliveTime、TimeUnit这几个参数就没多大意义了，因为任务队列可能永远都有任务
+线程池可能永远都会处于满负荷运行态
+
 核心线程为什么不死 ?
   通过任务队列workQueue.take()阻塞，让线程一直等待，直到获取到任务
 
 如何释放核心线程 ?
   将allowCoreThreadTimeOut设置为true
+
+
 
 由以上源码可知线程池其实并不区分核心线程与非核心线程，只是根据当前线程池容量状态做不同的处理来进行调整，
 0 - corePoolSize 表示线程池里只有核心线程，corePoolSize - maximumPoolSize 表示线程池里核心线程已满，存在非核心线程
