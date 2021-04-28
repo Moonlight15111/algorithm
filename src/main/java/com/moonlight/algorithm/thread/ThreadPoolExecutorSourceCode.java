@@ -27,7 +27,9 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 
   存放线程对象的容器为什么使用HashSet HashSet 其实本质上就是 HashMap ThreadPoolExecutor中对worker集合(HashSet)只有add和remove操作
   这些操作对于HashSet来说时间复杂度均为O(1)，而且线程数中对线程进入集合的顺序和优先级都没有要求，跟其他集合类相比，
-  在空间复杂度一致的情况下，当然是时间复杂度最好的集合类优先考虑
+  在空间复杂度一致的情况下，当然是时间复杂度最好的集合类优先考虑 另一个可能是为保证唯一性，即同一个线程只往里面放一次
+
+  由于工作队列，是多线程共享的，所以它应该是要多线程并发安全的，另外因为工作线程在没有
 
   CPU 密集型计算：多线程本质上是提升多核 CPU 的利用率，所以一般都是一个核一个线程，或者设置 核心数 + 1也行，
   这样的话，当线程因为偶尔的内存页失效或其他原因导致阻塞时，这个额外的线程可以顶上，从而保证 CPU 的利用率。
@@ -40,19 +42,24 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 一般一个线程执行完任务之后就结束了，Thread.start()只能调用一次，一旦这个调用结束，则该线程就到了stop状态，不能再次调用start。
 如果你对一个已经启动的线程对象再调用一次start方法的话,会产生:IllegalThreadStateException异常，但是Thread的run方法是可以重复调用的。
 
-           private Runnable getTask() {
-            // Are workers subject to culling?
-            boolean timed = allowCoreThreadTimeOut || wc > corePoolSize;
+    private Runnable getTask() {
+         // Are workers subject to culling?
+         boolean timed = allowCoreThreadTimeOut || wc > corePoolSize;
 
-            if ((wc > maximumPoolSize || (timed && timedOut))
+         如果：
+            1. 工作线程数已经超过了最大线程数 或 获取任务时已经等待超时了 且 (允许核心线程超时 或 当前工作线程数超出了核心线程数)
+            且
+            2. 当前最少还有一个工作线程 或 已经没有任务了
+         那么就先对工作线程数减1 然后return
+         if ((wc > maximumPoolSize || (timed && timedOut))
                 && (wc > 1 || workQueue.isEmpty())) {
-                if (compareAndDecrementWorkerCount(c))
+              if (compareAndDecrementWorkerCount(c))
                     return null;
-                continue;
-            }
+              continue;
+          }
 
-            try {
-                Runnable r = timed ?
+           try {
+               Runnable r = timed ?
                     workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
                     workQueue.take();
                 if (r != null)
@@ -61,7 +68,7 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
             } catch (InterruptedException retry) {
                 timedOut = false;
             }
-           }
+     }
 
  private void processWorkerExit(Worker w, boolean completedAbruptly) {
    if (completedAbruptly) // If abrupt, then workerCount wasn't adjusted
@@ -109,6 +116,11 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
 0 - corePoolSize 表示线程池里只有核心线程，corePoolSize - maximumPoolSize 表示线程池里核心线程已满，存在非核心线程
 所以corePoolSize只是线程池希望并保持的并发状态  corePoolSize - maximumPoolSize只是线程池允许的并发的超载状态，不希望长期保持。
 
+corePoolSize 只在:
+ 1. 添加工作线程时，判断一下核心线程是不是满了，没满就起个核心线程
+ 2. 获取任务进行等待时，作为是否需要释放工作线程的判断条件之一
+ 3. 处理线程退出，作为最小线程数的取值之一
+这几个地方有重要作用
  */
     }
 

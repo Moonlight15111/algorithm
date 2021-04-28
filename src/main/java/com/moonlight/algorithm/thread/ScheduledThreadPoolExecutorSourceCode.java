@@ -102,7 +102,11 @@ public class ScheduledThreadPoolExecutorSourceCode {
 //        }
 //    }
 //
-//    DelayedWorkQueue本质上是一个小根堆，毕竟是调度执行，肯定是最先执行的放最前面，同时根据局部性原理所以使用了数组，因为数组是连续存储的
+//    schedule是一个任务调度，需要延迟执行的，所以任务需要能够排队执行，且放进去的任务，不一定能够立即执行，需要等待时间满足了才执行
+//    所以它应该要按执行时间进行排序，先执行的排前面
+//    ThreadPoolExecutor原有的部分逻辑不满足需求，所以需要改造，
+//
+//    DelayedWorkQueue本质上是一个小根堆，毕竟是调度执行，肯定是最先执行的放最前面，同时根据局部性原理、缓存行所以使用了数组，因为数组是连续存储的
 //    优先级队列(数组小根堆)  有一个线程池,复用的ThreadPoolExecutor  ScheduledFutureTask封装了周期性调度任务，执行周期、下次执行时间
 //    public RunnableScheduledFuture<?> take() throws InterruptedException {
 //        final ReentrantLock lock = this.lock;
