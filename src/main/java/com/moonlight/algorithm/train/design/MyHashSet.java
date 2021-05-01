@@ -1,7 +1,6 @@
-package com.moonlight.algorithm.train.other;
+package com.moonlight.algorithm.train.design;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
