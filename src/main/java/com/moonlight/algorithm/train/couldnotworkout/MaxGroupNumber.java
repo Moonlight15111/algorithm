@@ -1,7 +1,6 @@
-package com.moonlight.algorithm.train.CouldnotWorkOut;
+package com.moonlight.algorithm.train.couldnotworkout;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 麻将的游戏规则中，共有两种方式凑成「一组牌」：

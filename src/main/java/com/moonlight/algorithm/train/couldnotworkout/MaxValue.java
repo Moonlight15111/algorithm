@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.CouldnotWorkOut;
+package com.moonlight.algorithm.train.couldnotworkout;
 
 import com.moonlight.algorithm.train.tree.TreeNode;
 

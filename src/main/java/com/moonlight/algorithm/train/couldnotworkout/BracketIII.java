@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.CouldnotWorkOut;
+package com.moonlight.algorithm.train.couldnotworkout;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,7 +11,7 @@ import java.util.Stack;
  * @Date 2020/5/6 22:05
  * @Version V1.0
  **/
-public class BinaryTree {
+public class BinaryTreeBaseSearchOp {
 
     public static void main (String[] args) {
         preNonRecursive(Node.getTree());
