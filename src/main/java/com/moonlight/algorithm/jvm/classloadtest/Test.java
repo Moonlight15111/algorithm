@@ -9,6 +9,8 @@ package com.moonlight.algorithm.jvm.classloadtest;
  */
 public class Test {
     public static void main (String[] args) {
+        SubClass subClass = new SubClass();
+        System.out.println("==============================");
         // 通过子类引用父类的静态变量并不会导致子类的初始化
         // 对于静态变量的引用只有直接定义了该字段的类才会被初始化
         System.out.println(SubClass.val);
