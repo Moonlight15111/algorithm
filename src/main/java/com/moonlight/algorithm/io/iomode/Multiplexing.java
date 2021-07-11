@@ -24,13 +24,15 @@ public class Multiplexing {
         ServerSocketChannel server = ServerSocketChannel.open();
         server.configureBlocking(false);
         server.bind(new InetSocketAddress(8888));
-        // 注册Selector
+        // 注册Selector   epoll模型下: epoll_create
         Selector selector = Selector.open();
+        // select、poll模型下: 可能是开辟一个数组用来存放fd epoll模型下: epoll_ctl
         server.register(selector, SelectionKey.OP_ACCEPT);
         // 死循环
         while (true) {
+            // 调用内核的select、poll,或者epoll_wait
             while (selector.select() > 0) {
-                //获取有状态的fd集合
+                // 获取有状态的fd集合,即可用的fd
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
                 Iterator<SelectionKey> iter = selectionKeys.iterator();
                 while (iter.hasNext()) {
@@ -38,6 +40,8 @@ public class Multiplexing {
                     iter.remove();
                     if (key.isAcceptable()) {
                         // 处理连接事件
+                        // 这里需要注意的时,accept是接受新的连接并返回新连接的fd
+                        // 所以需要将新的fd进行注册
                         acceptHandler(key, selector);
                     } else if (key.isReadable()) {
                         // 读取并处理数据
