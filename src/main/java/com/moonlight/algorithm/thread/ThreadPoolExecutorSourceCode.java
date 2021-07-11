@@ -40,8 +40,11 @@ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING�
   对于线程 A，当 CPU 从B、C 切换回来时，线程 A 正好执行完 I/O 操作。
   这样 CPU 和 I/O 设备的利用率都达到了100%。
 
-一般一个线程执行完任务之后就结束了，Thread.start()只能调用一次，一旦这个调用结束，则该线程就到了stop状态，不能再次调用start。
-如果你对一个已经启动的线程对象再调用一次start方法的话,会产生:IllegalThreadStateException异常，但是Thread的run方法是可以重复调用的。
+  一般一个线程执行完任务之后就结束了，Thread.start()只能调用一次，一旦这个调用结束，则该线程就到了stop状态，不能再次调用start。
+  如果你对一个已经启动的线程对象再调用一次start方法的话,会产生:IllegalThreadStateException异常，但是Thread的run方法是可以重复调用的。
+
+  worker: 继承自AQS，实现了Runnable接口。因为worker有很多状态需要记录，外面丢进来的任务是没有的，而且需要一个线程来运行，所以用runnable包装了一次。worker里面
+          会记录当前执行任务的线程，多线程的情况下，为了保障这个记录的准确性，也为了防止出现执行任务过程中，被其他线程抢断的情况，所以需要加锁于是用了AQS
 
     private Runnable getTask() {
          // Are workers subject to culling?
