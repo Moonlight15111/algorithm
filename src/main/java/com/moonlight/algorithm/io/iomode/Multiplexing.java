@@ -37,6 +37,7 @@ public class Multiplexing {
                 Iterator<SelectionKey> iter = selectionKeys.iterator();
                 while (iter.hasNext()) {
                     SelectionKey key = iter.next();
+                    // 将要处理的事件从返回的事件结果集移除掉，防止重复处理
                     iter.remove();
                     if (key.isAcceptable()) {
                         // 处理连接事件
@@ -45,8 +46,17 @@ public class Multiplexing {
                         acceptHandler(key, selector);
                     } else if (key.isReadable()) {
                         // 读取并处理数据
+                        // 在多路复用器中cancel掉这个key
+                        // 因为即使抛出另一个线程来处理，在另一个线程创建出来并启动的这个时间差里，这个key的read事件可能会被重复触发
+                        key.cancel();
                     } else if (key.isWritable()) {
                         // 写数据
+                        // 写事件，只要SendQueue是空的，就一定会给你返回可以写的事件，就会回调写事件方法
+                        // 另外你需要先准备好要写什么，然后才关心SendQueue是否有空间
+                        // 所以read一开始就要注册，但是writer依赖以上关系，所以是什么用什么时候注册
+                        // 因为只要SendQueue是空的，就一定会返回可以写的事件，所以注册write事件后
+                        //
+                        key.cancel();
                     }
                 }
             }
