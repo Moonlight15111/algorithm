@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.thread;
+package com.moonlight.algorithm.sourcecode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +17,14 @@ public class ThreadPoolExecutorSourceCode {
 
     public void threadKeepAliveAndGetTask() {
         /*
-ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING、TERMINATED  低29位存工作的线程数
+ ctl: 高三位表示线程池运行状态: Running、SHUTDOWN、STOP、TIDYING、TERMINATED  低29位存工作的线程数
 
- RUNNING:  Accept new tasks and process queued tasks  接收新任务，同时也会处理任务队列中的任务
- SHUTDOWN: Don't accept new tasks, but process queued tasks  不接受新任务，但是会处理任务队列中的任务
- STOP:     Don't accept new tasks, don't process queued tasks and interrupt in-progress tasks  不接受新任务，也不处理任务队列里的任务，还要中断正在执行中的任务
+ RUNNING:  Accept new tasks and process queued tasks  接收新任务，同时也会处理任务队列中的任务   111  只要判断ctl < 0 就知道是在运行状态了
+ SHUTDOWN: Don't accept new tasks, but process queued tasks  不接受新任务，但是会处理任务队列中的任务  000
+ STOP:     Don't accept new tasks, don't process queued tasks and interrupt in-progress tasks  不接受新任务，也不处理任务队列里的任务，还要中断正在执行中的任务 001
  TIDYING:  All tasks have terminated, workerCount is zero the thread transitioning to state TIDYING will run the terminated() hook method  所有的任务都已经终止，且工作线程数量为0，就会转换状态到tidying 然后调terminated 钩子函数
- TERMINATED: terminated() has completed  terminated方法已经执行完毕
+           010
+ TERMINATED: terminated() has completed  011 terminated方法已经执行完毕
 
   存放线程对象的容器为什么使用HashSet HashSet 其实本质上就是 HashMap ThreadPoolExecutor中对worker集合(HashSet)只有add和remove操作
   这些操作对于HashSet来说时间复杂度均为O(1)，而且线程数中对线程进入集合的顺序和优先级都没有要求，跟其他集合类相比，
