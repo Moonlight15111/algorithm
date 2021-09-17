@@ -30,7 +30,65 @@ package com.moonlight.algorithm.train.backtrack;
 public class IsValidSudoku {
 
     public static void main(String[] args) {
+		char[][] a = {{'5','3','.','.','7','.','.','.','.'},
+                {'6','.','.','1','9','5','.','.','.'},
+                {'.','9','8','.','.','.','.','6','.'},
+                {'8','.','.','.','6','.','.','.','3'},
+                {'4','.','.','8','.','3','.','.','1'},
+                {'7','.','.','.','2','.','.','.','6'},
+                {'.','6','.','.','.','.','2','8','.'},
+                {'.','.','.','4','1','9','.','.','5'},
+                {'.','.','.','.','8','.','.','7','9'}},
 
+                b = {{'8','3','.','.','7','.','.','.','.'},
+                        {'6','.','.','1','9','5','.','.','.'},
+                        {'.','9','8','.','.','.','.','6','.'},
+                        {'8','.','.','.','6','.','.','.','3'},
+                        {'4','.','.','8','.','3','.','.','1'},
+                        {'7','.','.','.','2','.','.','.','6'},
+                        {'.','6','.','.','.','.','2','8','.'},
+                        {'.','.','.','4','1','9','.','.','5'},
+                        {'.','.','.','.','8','.','.','7','9'}};
+        System.out.println(isValidSudoku(a) + ", " + violenceSearch(a));
+        System.out.println(isValidSudoku(b) + ", " + violenceSearch(b));
+    }
+	
+	public static boolean violenceSearch(char[][] board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.' && !valid(i, j, board[i][j], board)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean valid(int r, int c, char ch, char[][] board) {
+        // row
+        for (int i = r + 1; i < 9; i++) {
+            if (board[i][c] == ch) {
+                return false;
+            }
+        }
+        // col
+        for (int i = c + 1; i < 9; i++) {
+            if (board[r][i] == ch) {
+                return false;
+            }
+        }
+        // 当前属于哪个3 * 3的区域 rr = reg row  rc = reg col
+        int rr = (r / 3) * 3, rc = (c / 3) * 3;
+
+        for (int i = rr; i < rr + 3; i++) {
+            for (int j = rc; j < rc + 3; j++) {
+                if (board[i][j] == ch && (i != r && j != c)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public static boolean isValidSudoku(char[][] board) {
