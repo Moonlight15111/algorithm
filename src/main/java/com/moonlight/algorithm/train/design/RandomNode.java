@@ -1,3 +1,6 @@
+package com.moonlight.algorithm.train.design;
+import com.moonlight.algorithm.train.list.ListNode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
