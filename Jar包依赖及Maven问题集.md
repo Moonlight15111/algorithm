@@ -137,3 +137,14 @@
     恢复到mvn原本的配置，然后在项目的根目录下执行 mvn idea:idea 重新下载整个项目需要的全部依赖
  2. 另一个办法就是降版本，比如从2.2.6.release降到2.2.0.release
 ```
+
+#### java: 程序包org.junit.jupiter.api不存在
+```$xslt
+ 1. 添加依赖
+    <dependency>
+       <groupId>org.junit.jupiter</groupId>
+       <artifactId>junit-jupiter-api</artifactId>
+       <version>5.5.0</version>
+       <scope>test</scope>
+    </dependency>
+```
