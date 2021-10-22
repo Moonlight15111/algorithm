@@ -31,6 +31,27 @@
     </dependency>
 ```
 
+#### ClassNotFoundException: com.fasterxml.jackson.databind.ObjectMapper
+```$xslt
+ 1. 添加依赖
+   <jackson.version>2.12.5</jackson.version>
+   <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+   </dependency>
+   <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+   </dependency>
+   <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+   </dependency>
+```
+
 #### ClassNotFoundException: com.fasterxml.jackson.core.Versioned
 ```
  1. 添加依赖
