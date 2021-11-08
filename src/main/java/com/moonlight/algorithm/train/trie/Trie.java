@@ -1,4 +1,4 @@
-package com.moonlight.algorithm.train.tree;
+package com.moonlight.algorithm.train.trie;
 
 import java.util.HashMap;
 import java.util.Map;
