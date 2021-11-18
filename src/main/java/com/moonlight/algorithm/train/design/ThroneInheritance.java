@@ -32,7 +32,7 @@ import java.util.Map;
 public class ThroneInheritance {
 
     public static void main(String[] args) {
-        ThroneInheritance t= new ThroneInheritance("king");
+        ThroneInheritance t = new ThroneInheritance("king");
         // 继承顺序：king > andy
         t.birth("king", "andy");
         // 继承顺序：king > andy > bob
