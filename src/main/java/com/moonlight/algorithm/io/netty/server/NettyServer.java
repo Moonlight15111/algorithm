@@ -25,7 +25,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)
 //                    .option(ChannelOption.SO_BACKLOG, 8)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .childHandler(new MyChannelInitializer());
+                    .childHandler(new MyServerChannelInitializer());
             ChannelFuture f = b.bind(8081).sync();
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {

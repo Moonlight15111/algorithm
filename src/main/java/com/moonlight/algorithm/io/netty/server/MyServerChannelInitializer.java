@@ -9,6 +9,7 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -17,20 +18,20 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Moonlight
  */
-public class MyChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class MyServerChannelInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
-
         // 基于换行符号
-//        channel.pipeline().addLast("lineBasedFrameDecoder", new LineBasedFrameDecoder(1024));
+//        channel.pipeline().addLast("serverLineBasedFrameDecoder", new LineBasedFrameDecoder(1024));
         // 基于指定字符串【使用Delimiters.lineDelimiter()默认按照换行符，这样功能等同于LineBasedFrameDecoder】
 //        channel.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, false,
 //                Unpooled.wrappedBuffer(new byte[] { 'a', 'b' }),
 //                Unpooled.wrappedBuffer(new byte[] { 'c' })));
         // 基于长度, 这种对于中文或其他多字节的文字容易乱码，比如：中文发送: 呀滧燚安抚覅激发
-         channel.pipeline().addLast(new FixedLengthFrameDecoder(4));
+//        channel.pipeline().addLast(new FixedLengthFrameDecoder(4));
 
-        channel.pipeline().addLast("stringDecoder", new StringDecoder(StandardCharsets.UTF_8));
-        channel.pipeline().addLast("myServerDecoder", new MyServerHandler());
+        channel.pipeline().addLast("myServerStringEncoder", new StringEncoder(StandardCharsets.UTF_8));
+        channel.pipeline().addLast("serverStringDecoder", new StringDecoder(StandardCharsets.UTF_8));
+        channel.pipeline().addLast("myServerHandler", new MyServerHandler());
     }
 }
